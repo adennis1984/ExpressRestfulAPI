@@ -4,7 +4,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const path = require('path')
 const helmet = require('helmet')
 const models = require('./models')
 const swagger = require('./component/swagger')
@@ -21,17 +20,14 @@ process.env.environment = 'production'
 //backend api http header security
 app.use(helmet())
 
-// Register static folder
-app.use('/static', express.static(path.join(__dirname, '/static')))
-
-// parse application/x-www-form-urlencoded 
-app.use(bodyParser.urlencoded({ extended: false }))
+// parse json and application/x-www-form-urlencoded 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // cors setting
 app.use(cors({ credentials: true, origin: true }))
 
-// paser cookie
+// parse cookie
 app.use(cookieParser())
 
 // Create our Express router
@@ -42,14 +38,14 @@ if (process.env.NODE_ENV === 'localhost') {
 	swagger.setupSwagger(router, port, basePath)
 }
 
-/** language api  **/
+/** user api  **/
 router.use(userRouter(authenticate))
 
 // Register all our routes with /api/v1
 app.use(basePath, router)
 
 // Err handler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
 	console.error(err.stack)
 	res.status(500).send('Oops! Something broken!')
 })
