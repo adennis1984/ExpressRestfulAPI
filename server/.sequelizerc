@@ -1,0 +1,11 @@
+'use strict'
+
+let path = require('path')
+let env = require('dotenv').config()['NODE_DB_ENV'];
+
+module.exports = {
+  'env':              env,
+  'config':           path.resolve('config', 'model-config.json'),
+  'migrations-path':  path.resolve('db_migrate', 'migrations'),
+  'seeders-path':     path.resolve('db_migrate', 'seeders')
+}

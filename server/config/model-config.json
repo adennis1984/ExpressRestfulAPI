@@ -1,0 +1,19 @@
+{
+	"localhost": {
+		"dialect": "mysql",
+		"host": "localhost",
+		"dbname": "test",
+		"database": "test",
+		"username": "test",
+		"password": "test",
+		"port": "3306",
+		"timezone": "+08:00",
+		"pool": {
+			"max": 10,
+			"min": 0,
+			"idle": 10000
+		},
+		"autoMigrateOldSchema": true,
+		"migrationStorageTableName": "Migrations"
+	}
+}

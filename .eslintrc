@@ -1,0 +1,61 @@
+{
+    "rules": {
+        "indent": [
+            0,
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "quotes": [
+            1,
+            "single"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            2,
+            "never"
+        ],
+        "no-unused-vars": [
+            1,
+            {
+                "vars": "all",
+                "args": "after-used"
+            }
+        ],
+        "node/no-unsupported-features": 0,
+        "node/no-unpublished-require": 0,
+        "no-console": 0,
+        "mocha/no-exclusive-tests": "error"
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "mocha": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended"
+    ],
+    "ecmaFeatures": {
+        "experimentalObjectRestSpread": true,
+        "modules": true
+    },
+    "plugins": [
+        "node",
+        "mocha"
+    ],
+    "globals": {
+        "$": false,
+        "TweenLite": false,
+        "unicornWhisperer": false,
+        "PxLoader": false
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module"
+    }
+}

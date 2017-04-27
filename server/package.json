@@ -1,0 +1,45 @@
+{
+  "name": "express-restful-api",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "test": "nyc mocha ./test/spec/api ./test/spec/unitTest -R spec --ui bdd --timeout 999999"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.1",
+    "cors": "^2.7.1",
+    "dotenv": "^2.0.0",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "jsonwebtoken": "^5.7.0",
+    "mysql": "^2.10.2",
+    "node-uuid": "^1.4.8",
+    "path": "^0.12.7",
+    "randomstring": "^1.1.4",
+    "sequelize": "^3.28.0",
+    "winston": "^2.3.0"
+  },
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "files": [
+    "infrastructure"
+  ],
+  "description": "Demo restful api using express",
+  "keywords": [
+    "express-restful-api"
+  ],
+  "author": "Dennis Cho",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
+    "swagger-ui-express": "^1.0.5"
+  }
+}
