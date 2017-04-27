@@ -1,8 +1,6 @@
 'use strict'
 
-let fs = require('fs')
 let models = require('../../models')
-let Promise = require('es6-promise').Promise
 let bcrypt = require('bcrypt')
 let salt = bcrypt.genSaltSync(10)
 let logger = require('../../component/logger')

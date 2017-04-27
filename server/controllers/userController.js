@@ -15,25 +15,28 @@ module.exports = {
     getUser: (req, res) => {
 
         let userID = req.tokenDecoded.userID
-        let _setVO = PO => ({
-            ID: PO.ID,
-            userName: PO.userName,
-            organisation: PO.organisation,
-            email: PO.email,
-            avatar: PO.avatar
-        })
 
-        try {
-            asyncFunc()
-        } catch (err) {
-            let newErr = err.status ? err : responseMessage.USER_NOT_FOUND
-            baseApiUtils.responseHandler(null, res, newErr)
-        }
+        asyncFunc()
 
         async function asyncFunc() {
-            let result = await baseApiUtils.isUserExists(userID)
-            let resultVO = result.exists ? _setVO(result.results) : responseMessage.USER_NOT_FOUND
-            baseApiUtils.responseHandler(null, res, null, resultVO)
+            try {
+                let result = await baseApiUtils.isUserExists(userID)
+                let resultVO = result.exists ? _setVO(result.results) : responseMessage.USER_NOT_FOUND
+                baseApiUtils.responseHandler(null, res, null, resultVO)
+            } catch (err) {
+                let newErr = err.status ? err : responseMessage.USER_NOT_FOUND
+                baseApiUtils.responseHandler(null, res, newErr)
+            }
+        }
+
+        function _setVO(PO) {
+            return {
+                ID: PO.ID,
+                userName: PO.userName,
+                organisation: PO.organisation,
+                email: PO.email,
+                avatar: PO.avatar
+            }
         }
     },
     /**
@@ -43,36 +46,36 @@ module.exports = {
         let email = req.body.email
         let password = req.body.password
 
-        try {
-            asyncFunc()
-        } catch (err) {
-            let newErr = err.status ? err : responseMessage.USER_CREATE_FAIL
-            baseApiUtils.responseHandler(null, res, newErr)
-        }
+        asyncFunc()
 
         async function asyncFunc() {
-            let userID = uuid.v1()
-            let t = await models.sequelize.transaction()
-            let userVO = await models.user.findOrCreate({
-                where: { email: email },
-                defaults: {
-                    ID: userID,
-                    userName: email.substring(0, email.lastIndexOf('@')),
-                    email: email,
-                    password: baseApiUtils.hashPassword(password),
-                    accessToken: generate.genToken(userID)
-                },
-                transaction: t
-            })
+            try {
+                let userID = uuid.v1()
+                let t = await models.sequelize.transaction()
+                let userVO = await models.user.findOrCreate({
+                    where: { email: email },
+                    defaults: {
+                        ID: userID,
+                        userName: email.substring(0, email.lastIndexOf('@')),
+                        email: email,
+                        password: baseApiUtils.hashPassword(password),
+                        accessToken: generate.genToken(userID)
+                    },
+                    transaction: t
+                })
 
-            if (userVO[1] === false) { throw responseMessage.USER_EMAIL_EXISTED }
+                if (userVO[1] === false) { throw responseMessage.USER_EMAIL_EXISTED }
 
-            let resultVO = {
-                message: responseMessage.USER_CREATE_SUCCESS,
-                accessToken: userVO[0].accessTokenVO,
-                userID: userID
+                let resultVO = {
+                    message: responseMessage.USER_CREATE_SUCCESS,
+                    accessToken: userVO[0].accessToken,
+                    userID: userID
+                }
+                baseApiUtils.responseHandler(t, res, null, resultVO)
+            } catch (err) {
+                let newErr = err.status ? err : responseMessage.USER_CREATE_FAIL
+                baseApiUtils.responseHandler(null, res, newErr)
             }
-            baseApiUtils.responseHandler(t, res, null, resultVO)
         }
     },
     /**
