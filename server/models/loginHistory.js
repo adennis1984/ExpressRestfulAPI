@@ -11,11 +11,13 @@ module.exports = (sequelize, DataTypes) => {
         userID: {
             type: DataTypes.UUID,
             allowNull: false,
+            defaultValue: DataTypes.UUIDV4,
             comment: '使用者代碼'
         },
         loginTime: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: false,
+            defaultValue: DataTypes.NOW,
             comment: '登入時間'
         },
         createdAt: {
